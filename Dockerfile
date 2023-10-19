@@ -1,18 +1,3 @@
-# Use the official Gradle image as a base image
-FROM gradle:jdk11 AS build
-
-# Set the working directory in the image
-WORKDIR /app
-
-# Copy the Gradle files first to leverage Docker cache
-COPY build.gradle.kts settings.gradle.kts /app/
-
-# Copy the rest of the application
-COPY src /app/src
-
-# Build the application
-RUN gradle build --no-daemon
-
 # Start with a fresh JDK 11 image for smaller image size
 FROM openjdk:11-jre-slim
 
