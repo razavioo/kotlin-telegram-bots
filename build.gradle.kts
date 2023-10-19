@@ -24,6 +24,7 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.2.2")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:2.2.2")
     implementation("ch.qos.logback:logback-classic:1.4.11")
+    implementation("org.apache.commons:commons-imaging:1.0-alpha3")
 }
 
 tasks.test {
