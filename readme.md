@@ -1,4 +1,4 @@
-# Telegram Bots Repository
+# Kotlin Telegram Bots
 
 This repository contains multiple Telegram bots:
 
