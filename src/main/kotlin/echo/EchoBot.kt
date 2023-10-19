@@ -5,9 +5,8 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.Update
 
 class EchoBot(token: String) : TelegramLongPollingBot(token) {
-    override fun getBotUsername(): String {
-        return "mobileqombot"
-    }
+
+    override fun getBotUsername(): String = "echo_thursday_bot"
 
     override fun onUpdateReceived(update: Update) {
         if (update.hasMessage() && update.message.hasText()) {

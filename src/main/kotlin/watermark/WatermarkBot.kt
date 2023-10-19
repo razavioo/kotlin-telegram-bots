@@ -1,7 +1,10 @@
 package watermark
 
 import downloadImage
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
 import org.telegram.telegrambots.meta.api.methods.GetFile
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
@@ -24,7 +27,7 @@ class WatermarkBot(token: String) : TelegramLongPollingBot(token), CoroutineScop
 
     private val dataStorage: HashMap<Long, SavedData> = HashMap()
 
-    override fun getBotUsername(): String = "watermarkqombot"
+    override fun getBotUsername(): String = "watermark_thursday_bot"
 
     override fun onUpdateReceived(update: Update) {
         val message = update.message ?: return
@@ -147,11 +150,11 @@ class WatermarkBot(token: String) : TelegramLongPollingBot(token), CoroutineScop
         }
     }
 
-    private suspend fun getFileUrl(fileId: String): String? {
+    private fun getFileUrl(fileId: String): String? {
         val getFile = GetFile()
         getFile.fileId = fileId
         return try {
-            val file = withContext(Dispatchers.IO) { execute(getFile) }
+            val file = execute(getFile)
             val filePath = file.filePath
             "https://api.telegram.org/file/bot${botToken}/$filePath"
         } catch (e: Exception) {
@@ -160,3 +163,5 @@ class WatermarkBot(token: String) : TelegramLongPollingBot(token), CoroutineScop
         }
     }
 }
+
+data class SavedData(var imageBytes: ByteArray, var text: String?, var colorName: String?)

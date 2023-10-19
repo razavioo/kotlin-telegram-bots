@@ -5,7 +5,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession
 
 fun main() {
-    val token = "6787174509:AAF0FI8aq7PznkU_nRMFceS5QgTGG7-u1z8"
+    val token = System.getenv("BOT_TOKEN") ?: "BOT_TOKEN"
     val nameBot = NameBot(token)
     val botsApi = TelegramBotsApi(DefaultBotSession::class.java)
     try {

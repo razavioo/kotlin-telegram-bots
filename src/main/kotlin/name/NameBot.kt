@@ -3,16 +3,20 @@ package name
 import KtorClient.client
 import io.ktor.client.call.*
 import io.ktor.client.request.*
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.Update
 
-class NameBot(token: String) : TelegramLongPollingBot(token) {
-    override fun getBotUsername(): String {
-        return "nameqombot"
-    }
+class NameBot(token: String) : TelegramLongPollingBot(token), CoroutineScope {
+
+    override val coroutineContext = Dispatchers.Default + SupervisorJob()
+
+    override fun getBotUsername(): String = "name_thursday_bot"
 
     override fun onUpdateReceived(update: Update) {
         if (update.hasMessage() && update.message.hasText()) {
@@ -21,7 +25,7 @@ class NameBot(token: String) : TelegramLongPollingBot(token) {
             if (messageText.startsWith("/name")) {
                 val name = messageText.split(" ").getOrNull(1)
                 if (name != null) {
-                    GlobalScope.launch {
+                    launch {
                         val nameInfo = getNameInfo(name)
                         sendTextMessage(chatId, nameInfo)
                     }
@@ -49,3 +53,15 @@ class NameBot(token: String) : TelegramLongPollingBot(token) {
         execute(sendMessage)
     }
 }
+
+@Serializable
+data class GenderizeResponse(val name: String, val gender: String)
+
+@Serializable
+data class AgifyResponse(val name: String, val age: Int)
+
+@Serializable
+data class NationalizeResponse(val name: String, val country: List<CountryInfo>)
+
+@Serializable
+data class CountryInfo(val country_id: String, val probability: Float)
