@@ -27,7 +27,7 @@ class WatermarkBot(token: String) : TelegramLongPollingBot(token), CoroutineScop
 
     private val dataStorage: HashMap<Long, SavedData> = HashMap()
 
-    override fun getBotUsername(): String = "watermark_thursday_bot"
+    override fun getBotUsername(): String = System.getenv("BOT_USERNAME") ?: "watermark_thursday_bot"
 
     override fun onUpdateReceived(update: Update) {
         val message = update.message ?: return

@@ -16,7 +16,7 @@ class NameBot(token: String) : TelegramLongPollingBot(token), CoroutineScope {
 
     override val coroutineContext = Dispatchers.Default + SupervisorJob()
 
-    override fun getBotUsername(): String = "name_thursday_bot"
+    override fun getBotUsername(): String = System.getenv("BOT_USERNAME") ?: "name_thursday_bot"
 
     override fun onUpdateReceived(update: Update) {
         if (update.hasMessage() && update.message.hasText()) {
